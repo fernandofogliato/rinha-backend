@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rinha
+    username: admin
+    password: postgres
+
+  jackson:
+    date-format: yyyy-MM-dd'T'HH:mm:ss.SSSSSZ
+    time-zone: UTC
+    serialization:
+      write-dates-as-timestamps: false
