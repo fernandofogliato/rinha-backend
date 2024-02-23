@@ -19,13 +19,13 @@ public class CustomerController {
     }
 
     @PostMapping("/{customerId}/transacoes")
-    public TransacaoCreatedResponse createTransaction(@PathVariable long customerId, @RequestBody @Valid Transacao transaction) {
+    public TransacaoCreatedResponse createTransaction(@PathVariable int customerId, @RequestBody @Valid Transacao transaction) {
         Saldo saldo = transactionService.create(customerId, transaction);
         return new TransacaoCreatedResponse(saldo.limite(), saldo.total());
     }
 
     @GetMapping("/{customerId}/extrato")
-    public Extrato getBankStatement(@PathVariable long customerId) {
+    public Extrato getBankStatement(@PathVariable int customerId) {
         return transactionService.getBankStatement(customerId);
     }
 

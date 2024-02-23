@@ -12,16 +12,16 @@ public class TransactionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transaction_id")
-    private Long transactionId;
+    private int transactionId;
     
     @Column
-    private Long value;
+    private int value;
 
     @Column
     private String description;
 
     @Column(name = "customer_id")
-    private Long customerId;
+    private int customerId;
 
     @Enumerated(EnumType.STRING)
     private TransactionType type;
@@ -29,19 +29,19 @@ public class TransactionEntity {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public Long getTransactionId() {
+    public int getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(Long transactionId) {
+    public void setTransactionId(int transactionId) {
         this.transactionId = transactionId;
     }
 
-    public Long getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(Long value) {
+    public void setValue(int value) {
         this.value = value;
     }
 
@@ -74,11 +74,11 @@ public class TransactionEntity {
         return Objects.hash(transactionId);
     }
 
-    public Long getCustomerId() {
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 

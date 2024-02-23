@@ -14,7 +14,7 @@ import java.time.ZoneOffset;
 public record Transacao(
         @NotNull(message = "Valor é obrigatório")
         @Min(value  = 1, message = "Informe um valor positivo válido")
-        Long valor,
+        Integer valor,
         TransactionType tipo,
         @NotBlank(message = "Descrição não pode ser nula/vazia")
         @Size(max = 10, message = "Máximo 10 caracteres")
@@ -22,7 +22,7 @@ public record Transacao(
         Instant realizadaEm
 ) {
 
-    public TransactionEntity toEntity(long customerId) {
+    public TransactionEntity toEntity(int customerId) {
         TransactionEntity entity = new TransactionEntity();
         entity.setCustomerId(customerId);
         entity.setType(tipo);

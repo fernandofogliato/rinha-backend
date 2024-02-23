@@ -10,22 +10,19 @@ public class CustomerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
-    private Long customerId;
+    private int customerId;
 
     @Column
     private String name;
 
     @Column
-    private Long limit;
+    private int limit;
 
-    @Column
-    private Long balance;
-
-    public Long getCustomerId() {
+    public int getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(int customerId) {
         this.customerId = customerId;
     }
 
@@ -37,20 +34,12 @@ public class CustomerEntity {
         this.name = name;
     }
 
-    public Long getLimit() {
+    public int getLimit() {
         return limit;
     }
 
-    public void setLimit(Long limit) {
+    public void setLimit(int limit) {
         this.limit = limit;
-    }
-
-    public Long getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Long balance) {
-        this.balance = balance;
     }
 
     @Override

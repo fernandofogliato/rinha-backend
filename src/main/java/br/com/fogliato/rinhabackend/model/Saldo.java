@@ -1,12 +1,13 @@
 package br.com.fogliato.rinhabackend.model;
 
+import br.com.fogliato.rinhabackend.entity.BalanceEntity;
 import br.com.fogliato.rinhabackend.entity.CustomerEntity;
 
 import java.time.Instant;
 
-public record Saldo(long total, Instant dataExtrato, long limite) {
+public record Saldo(int total, Instant dataExtrato, int limite) {
 
-    public static Saldo fromEntity(CustomerEntity entity) {
-        return new Saldo(entity.getBalance(), Instant.now(), entity.getLimit());
+    public static Saldo fromEntity(CustomerEntity customer, BalanceEntity balance) {
+        return new Saldo(balance.getBalance(), Instant.now(), customer.getLimit());
     }
 }
