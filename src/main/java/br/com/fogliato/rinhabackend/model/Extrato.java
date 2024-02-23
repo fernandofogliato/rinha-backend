@@ -1,4 +1,4 @@
-package br.fogliato.rinhabackend.model;
+package br.com.fogliato.rinhabackend.model;
 
 import java.util.List;
 

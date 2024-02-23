@@ -1,6 +1,6 @@
-package br.fogliato.rinhabackend.repository;
+package br.com.fogliato.rinhabackend.repository;
 
-import br.fogliato.rinhabackend.entity.TransactionEntity;
+import br.com.fogliato.rinhabackend.entity.TransactionEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

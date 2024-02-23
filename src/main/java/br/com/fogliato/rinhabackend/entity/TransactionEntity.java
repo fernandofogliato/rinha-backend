@@ -1,6 +1,6 @@
-package br.fogliato.rinhabackend.entity;
+package br.com.fogliato.rinhabackend.entity;
 
-import br.fogliato.rinhabackend.type.TransactionType;
+import br.com.fogliato.rinhabackend.type.TransactionType;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

@@ -6,7 +6,7 @@ plugins {
 	id 'org.graalvm.buildtools.native' version '0.9.28'
 }
 
-group = 'br.fogliato'
+group = 'br.com.fogliato'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -28,6 +28,11 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+//tasks.named('jar') {
+//	enabled = true
+//	archiveClassifier.set("")
+//}
 
 hibernate {
 	enhancement {

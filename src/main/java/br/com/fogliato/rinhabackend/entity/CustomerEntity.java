@@ -1,4 +1,4 @@
-package br.fogliato.rinhabackend.entity;
+package br.com.fogliato.rinhabackend.entity;
 
 import jakarta.persistence.*;
 

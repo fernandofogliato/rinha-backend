@@ -1,10 +1,10 @@
-package br.fogliato.rinhabackend.controller;
+package br.com.fogliato.rinhabackend.controller;
 
-import br.fogliato.rinhabackend.dto.TransacaoCreatedResponse;
-import br.fogliato.rinhabackend.model.Extrato;
-import br.fogliato.rinhabackend.model.Saldo;
-import br.fogliato.rinhabackend.model.Transacao;
-import br.fogliato.rinhabackend.service.TransactionService;
+import br.com.fogliato.rinhabackend.dto.TransacaoCreatedResponse;
+import br.com.fogliato.rinhabackend.model.Extrato;
+import br.com.fogliato.rinhabackend.model.Saldo;
+import br.com.fogliato.rinhabackend.model.Transacao;
+import br.com.fogliato.rinhabackend.service.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 

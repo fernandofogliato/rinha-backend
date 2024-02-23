@@ -1,4 +1,4 @@
-package br.fogliato.rinhabackend.exception;
+package br.com.fogliato.rinhabackend.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 

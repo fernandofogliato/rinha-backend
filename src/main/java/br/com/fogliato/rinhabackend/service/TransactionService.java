@@ -1,15 +1,15 @@
-package br.fogliato.rinhabackend.service;
+package br.com.fogliato.rinhabackend.service;
 
-import br.fogliato.rinhabackend.entity.CustomerEntity;
-import br.fogliato.rinhabackend.entity.TransactionEntity;
-import br.fogliato.rinhabackend.exception.InvalidTransactionException;
-import br.fogliato.rinhabackend.exception.ResourceNotFoundException;
-import br.fogliato.rinhabackend.model.Extrato;
-import br.fogliato.rinhabackend.model.Saldo;
-import br.fogliato.rinhabackend.model.Transacao;
-import br.fogliato.rinhabackend.repository.CustomerRepository;
-import br.fogliato.rinhabackend.repository.TransactionRepository;
-import br.fogliato.rinhabackend.type.TransactionType;
+import br.com.fogliato.rinhabackend.entity.CustomerEntity;
+import br.com.fogliato.rinhabackend.entity.TransactionEntity;
+import br.com.fogliato.rinhabackend.exception.InvalidTransactionException;
+import br.com.fogliato.rinhabackend.exception.ResourceNotFoundException;
+import br.com.fogliato.rinhabackend.model.Extrato;
+import br.com.fogliato.rinhabackend.model.Saldo;
+import br.com.fogliato.rinhabackend.model.Transacao;
+import br.com.fogliato.rinhabackend.repository.CustomerRepository;
+import br.com.fogliato.rinhabackend.repository.TransactionRepository;
+import br.com.fogliato.rinhabackend.type.TransactionType;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,6 @@
-package br.fogliato.rinhabackend.model;
+package br.com.fogliato.rinhabackend.model;
 
-import br.fogliato.rinhabackend.entity.CustomerEntity;
+import br.com.fogliato.rinhabackend.entity.CustomerEntity;
 
 import java.time.Instant;
 
