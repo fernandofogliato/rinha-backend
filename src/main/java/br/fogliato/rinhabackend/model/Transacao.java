@@ -2,6 +2,7 @@ package br.fogliato.rinhabackend.model;
 
 import br.fogliato.rinhabackend.entity.TransactionEntity;
 import br.fogliato.rinhabackend.type.TransactionType;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,6 +14,7 @@ import java.time.ZoneOffset;
 
 public record Transacao(
         @NotNull(message = "Valor é obrigatório")
+        @Min(value  = 1, message = "Informe um valor positivo válido")
         Long valor,
         TransactionType tipo,
         @NotBlank(message = "Descrição não pode ser nula/vazia")
