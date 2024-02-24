@@ -3,7 +3,8 @@ ALTER DATABASE rinha SET TIMEZONE TO 'UTC';
 CREATE UNLOGGED TABLE customer (
     customer_id SERIAL PRIMARY KEY,
     name VARCHAR(50),
-    "limit" INTEGER NOT NULL
+    "limit" INTEGER NOT NULL,
+    balance INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE UNLOGGED TABLE "transaction" (

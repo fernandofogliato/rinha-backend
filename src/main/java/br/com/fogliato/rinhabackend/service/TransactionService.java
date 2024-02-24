@@ -1,62 +1,69 @@
 package br.com.fogliato.rinhabackend.service;
 
-import br.com.fogliato.rinhabackend.entity.BalanceEntity;
 import br.com.fogliato.rinhabackend.entity.CustomerEntity;
 import br.com.fogliato.rinhabackend.entity.TransactionEntity;
 import br.com.fogliato.rinhabackend.exception.InvalidTransactionException;
 import br.com.fogliato.rinhabackend.exception.ResourceNotFoundException;
-import br.com.fogliato.rinhabackend.model.Extrato;
-import br.com.fogliato.rinhabackend.model.Saldo;
-import br.com.fogliato.rinhabackend.model.Transacao;
+import br.com.fogliato.rinhabackend.model.Balance;
+import br.com.fogliato.rinhabackend.model.BankStatement;
+import br.com.fogliato.rinhabackend.model.Transaction;
 import br.com.fogliato.rinhabackend.repository.BalanceRepository;
 import br.com.fogliato.rinhabackend.repository.CustomerRepository;
 import br.com.fogliato.rinhabackend.repository.TransactionRepository;
 import br.com.fogliato.rinhabackend.type.TransactionType;
-import jakarta.transaction.Transactional;
+import org.springframework.dao.CannotAcquireLockException;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.Instant;
 import java.util.List;
 
 @Service
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
-    private final CustomerRepository customerRepository;
     private final BalanceRepository balanceRepository;
+    private final CustomerRepository customerRepository;
 
     public TransactionService(TransactionRepository transactionRepository,
-                              CustomerRepository customerRepository,
-                              BalanceRepository balanceRepository) {
+                              BalanceRepository balanceRepository,
+                              CustomerRepository customerRepository) {
         this.transactionRepository = transactionRepository;
-        this.customerRepository = customerRepository;
         this.balanceRepository = balanceRepository;
+        this.customerRepository = customerRepository;
     }
 
-    @Transactional
-    public Saldo create(int customerId, Transacao transaction) {
+    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Retryable(retryFor = { CannotAcquireLockException.class }, maxAttempts = 3)
+    public Balance create(int customerId, Transaction transaction) {
         CustomerEntity customer = customerRepository.findById(customerId)
                 .orElseThrow(ResourceNotFoundException::new);
 
-        int value = transaction.tipo().equals(TransactionType.d) ? transaction.valor() * -1 : transaction.valor();
-        BalanceEntity lastBalance = balanceRepository.findLastBalance(customerId);
-        int newBalance = lastBalance.getBalance() + value;
+        int newBalance = getNewBalance(transaction, customer.getBalance());
 
-        if (Math.abs(newBalance) > customer.getLimit()) {
+        // A debit transaction cannot debit more than the limit of the customer
+        if (transaction.type().equals(TransactionType.d) && Math.abs(newBalance) > customer.getLimit()) {
             throw new InvalidTransactionException();
         }
         transactionRepository.save(transaction.toEntity(customerId));
-        balanceRepository.save(new BalanceEntity(customerId, newBalance));
-        return new Saldo(newBalance, Instant.now(), customer.getLimit());
+        customerRepository.updateBalance(customerId, newBalance);
+//        balanceRepository.save(new BalanceEntity(customerId, newBalance));
+        return Balance.withBalanceAndLimit(newBalance, customer.getLimit());
     }
 
-    public Extrato getBankStatement(int customerId) {
+    private static int getNewBalance(Transaction transaction, int currentBalance) {
+        int value = transaction.type().equals(TransactionType.d) ? transaction.value() * -1 : transaction.value();
+        return currentBalance + value;
+    }
+
+    public BankStatement getBankStatement(int customerId) {
         CustomerEntity customer = customerRepository.findById(customerId)
                 .orElseThrow(ResourceNotFoundException::new);
         List<TransactionEntity> entities = transactionRepository.findLastTransactions(customerId);
-        List<Transacao> transactions = entities.stream().map(Transacao::fromEntity).toList();
-        BalanceEntity lastBalance = balanceRepository.findLastBalance(customerId);
-        Saldo saldo = Saldo.fromEntity(customer, lastBalance);
-        return new Extrato(saldo, transactions);
+        List<Transaction> transactions = entities.stream().map(Transaction::fromEntity).toList();
+
+        Balance balance = Balance.withBalanceAndLimit(customer.getBalance(), customer.getLimit());
+        return new BankStatement(balance, transactions);
     }
 }

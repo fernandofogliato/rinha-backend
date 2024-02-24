@@ -18,6 +18,9 @@ public class CustomerEntity {
     @Column
     private int limit;
 
+    @Column
+    private int balance;
+
     public int getCustomerId() {
         return customerId;
     }
@@ -40,6 +43,14 @@ public class CustomerEntity {
 
     public void setLimit(int limit) {
         this.limit = limit;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 
     @Override

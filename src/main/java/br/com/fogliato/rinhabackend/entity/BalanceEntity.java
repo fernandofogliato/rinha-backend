@@ -14,8 +14,9 @@ public class BalanceEntity {
     @Column(name = "balance_id")
     private int balanceId;
 
-    @Column(name = "customer_id")
-    private int customerId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="customer_id", nullable = false)
+    private CustomerEntity customer;
 
     @Column
     private int balance;
@@ -29,14 +30,6 @@ public class BalanceEntity {
 
     public void setBalanceId(int balanceId) {
         this.balanceId = balanceId;
-    }
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
     }
 
     public int getBalance() {
@@ -69,10 +62,27 @@ public class BalanceEntity {
     }
 
     public BalanceEntity(int customerId, int balance) {
-        this.customerId = customerId;
+        this.customer = new CustomerEntity();
+        this.customer.setCustomerId(customerId);
+        this.balance = balance;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public BalanceEntity(int balance, int customerId, int limit) {
+        this.customer = new CustomerEntity();
+        this.customer.setCustomerId(customerId);
+        this.customer.setLimit(limit);
         this.balance = balance;
     }
 
     public BalanceEntity() {
+    }
+
+    public CustomerEntity getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
     }
 }
