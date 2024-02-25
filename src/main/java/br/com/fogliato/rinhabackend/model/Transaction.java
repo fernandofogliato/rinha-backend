@@ -3,20 +3,19 @@ package br.com.fogliato.rinhabackend.model;
 import br.com.fogliato.rinhabackend.entity.TransactionEntity;
 import br.com.fogliato.rinhabackend.type.TransactionType;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 public record Transaction(
         @NotNull(message = "Valor é obrigatório")
-        @Min(value  = 1, message = "Informe um value positivo válido")
+        @Positive(message = "Informe um value positivo válido")
+        @Digits(integer = 12, fraction = 0, message = "Apenas valores inteiros são aceitos")
         @JsonProperty("valor")
-        Integer value,
+        BigDecimal value,
 
         @JsonProperty("tipo")
         TransactionType type,
@@ -34,14 +33,15 @@ public record Transaction(
         entity.setCustomerId(customerId);
         entity.setType(type);
         entity.setDescription(description);
-        entity.setValue(value);
+        entity.setValue(value.intValue());
         entity.setCreatedAt(LocalDateTime.now());
 
         return entity;
     }
 
     public static Transaction fromEntity(TransactionEntity entity) {
-        return new Transaction(entity.getValue(),
+        return new Transaction(
+                BigDecimal.valueOf(entity.getValue()),
                 entity.getType(),
                 entity.getDescription(),
                 entity.getCreatedAt().toInstant(ZoneOffset.UTC));

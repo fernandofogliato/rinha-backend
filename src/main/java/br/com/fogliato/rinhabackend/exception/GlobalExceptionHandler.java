@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(BindException.class)
     public ProblemDetail handleBindException(BindException exception) {
         var errorMessages = exception.getBindingResult().getFieldErrors().stream()
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
                 .collect(Collectors.joining(", "));
 
         logger.error("Bean validation error: {}", exception.getMessage());
-        var problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, errorMessages);
+        var problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNPROCESSABLE_ENTITY, errorMessages);
         problemDetail.setTitle("Validation error");
         return problemDetail;
     }
